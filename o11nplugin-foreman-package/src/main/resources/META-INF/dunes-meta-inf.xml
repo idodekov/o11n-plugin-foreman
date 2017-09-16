@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>10.27.126.109:8281</comment>
+<entry key="vso-build-nb">3310137</entry>
+<entry key="pkg-description"></entry>
+<entry key="pkg-name">o11n.foreman</entry>
+<entry key="used-plugins"></entry>
+<entry key="pkg-owner">O=VMware,OU=Unknow,CN=vCO vro-l-02a 4d76ebad-1bc6-472f-8f85-f4fec27162f6</entry>
+<entry key="vso-version">7.0.0.3310137</entry>
+<entry key="pkg-id">4028bc8254b6f3700154fc9d52990016</entry>
+</properties>

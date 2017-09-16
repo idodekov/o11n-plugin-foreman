@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">Foreman</entry>
+<entry key="name">Test workflow</entry>
+<entry key="type">Workflow</entry>
+<entry key="id">251965e0-d199-46c3-953c-6a6f69a8152a</entry>
+</properties>

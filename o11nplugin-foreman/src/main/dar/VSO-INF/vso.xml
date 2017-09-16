@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<module name="Foreman" display-name="Foreman" image="images/default-32x32.png" version="${project.version}"
+  build-number="${build.number}" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://www.vmware.com/support/orchestrator/plugin-4-1.xsd">
+
+	<description>Foreman plug-in for VMware vRealize Orchestrator</description>
+  
+	<installation mode="version">
+		<action type="install-package" resource="packages/o11nplugin-foreman-package-1.0.0.package" />
+	</installation>
+	
+	<inventory type="ForemanPlugin"/>
+	
+	<finder-datasources>
+		<finder-datasource name="foreman-datasource" adaptor-class="o11n.foreman.ForemanPluginAdaptor"
+			anonymous-login-mode="internal" />
+	</finder-datasources>
+	
+	<finders>
+		<finder type="ForemanPlugin" datasource="foreman-datasource" hidden="true" java-class="o11n.foreman.model.object.ForemanPlugin">
+			<id accessor="getId()" />
+			
+			<relations>
+				<relation type="ForemanServer" name="servers" />
+			</relations>
+			<inventory-children>
+				<relation-link name="servers" />
+			</inventory-children>
+		</finder>
+<!-- SERVERS -->		
+		<finder type="ForemanServer" datasource="foreman-datasource" java-class="o11n.foreman.model.object.ForemanServer"
+			script-object="Foreman_Server" image="images/item-16x16.png">
+			<description>Foreman Server</description>
+			<id accessor="getId()" />
+			<properties>
+				<property display-name="Name" name="name" bean-property="name" />
+				<property display-name="Id" name="id" property-accessor="id" show-in-column="false"/>
+				<property display-name="Host" name="host" property-accessor="host" show-in-column="false" />
+				<property display-name="Port" name="port" property-accessor="port" show-in-column="false" />
+				<property display-name="Ssl" name="ssl" property-accessor="ssl" show-in-column="false" />
+				<property display-name="Username" name="username" property-accessor="username" show-in-column="false" />
+				<property display-name="Shared Session" name="sharedSession" property-accessor="sharedSession" show-in-column="false" />
+			</properties>
+			<relations>
+				<relation type="Folder_ForemanServer_Host" name="Folder_ForemanServer_Host" />
+			</relations>
+			<inventory-children>
+				<relation-link name="Folder_ForemanServer_Host" />
+			</inventory-children>
+		</finder>
+<!-- HOSTS -->		
+		<finder type="Folder_ForemanServer_Host" datasource="foreman-datasource" hidden="true" 
+			script-object="Foreman_HostManager" java-class="o11n.foreman.model.object.folder.Folder_ForemanServer_Host"
+			image="images/folder-16x16.png">
+			<description>Foreman Host Container</description>
+			<id accessor="getId()" />
+			<properties>
+				<property display-name="Name" name="name" bean-property="name" />
+				<property display-name="Id" name="id" property-accessor="id" show-in-column="false"/>
+			</properties>
+			<relations>
+				<relation type="ForemanHost" name="ForemanHost" />
+			</relations>
+			<inventory-children>
+				<relation-link name="ForemanHost" />
+			</inventory-children>
+		</finder>
+		
+		<finder type="ForemanHost" datasource="foreman-datasource" java-class="o11n.foreman.model.object.Host"
+			script-object="Foreman_Host" image="images/host-16x16.png">
+			<description>Foreman Host</description>
+			<id accessor="getId()" />
+			<properties>
+				<property display-name="id" name="id" property-accessor="id" show-in-column="false"/>
+				<property display-name="name" name="name" property-accessor="name"/>
+				<property display-name="foremanId" name="foremanId" property-accessor="foremanId" show-in-column="false"/>
+				<property display-name="ip" name="ip" property-accessor="ip" show-in-column="false"/>
+				<property display-name="environment_id" name="environment_id" property-accessor="environment_id" show-in-column="false"/>
+				<property display-name="environment_name" name="environment_name" property-accessor="environment_name" show-in-column="false"/>
+				<property display-name="last_report" name="last_report" property-accessor="last_report" show-in-column="false"/>
+				<property display-name="mac" name="mac" property-accessor="mac" show-in-column="false"/>
+				<property display-name="realm_id" name="realm_id" property-accessor="realm_id" show-in-column="false"/>
+				<property display-name="realm_name" name="realm_name" property-accessor="realm_name" show-in-column="false"/>
+				<property display-name="sp_mac" name="sp_mac" property-accessor="sp_mac" show-in-column="false"/>
+				<property display-name="sp_ip" name="sp_ip" property-accessor="sp_ip" show-in-column="false"/>
+				<property display-name="sp_name" name="sp_name" property-accessor="sp_name" show-in-column="false"/>
+				<property display-name="domain_id" name="domain_id" property-accessor="domain_id" show-in-column="false"/>
+				<property display-name="domain_name" name="domain_name" property-accessor="domain_name" show-in-column="false"/>
+				<property display-name="architecture_id" name="architecture_id" property-accessor="architecture_id" show-in-column="false"/>
+				<property display-name="architecture_name" name="architecture_name" property-accessor="architecture_name" show-in-column="false"/>
+				<property display-name="operatingsystem_id" name="operatingsystem_id" property-accessor="operatingsystem_id" show-in-column="false"/>
+				<property display-name="operatingsystem_name" name="operatingsystem_name" property-accessor="operatingsystem_name" show-in-column="false"/>
+				<property display-name="subnet_id" name="subnet_id" property-accessor="subnet_id" show-in-column="false"/>
+				<property display-name="subnet_name" name="subnet_name" property-accessor="subnet_name" show-in-column="false"/>
+				<property display-name="sp_subnet_id" name="sp_subnet_id" property-accessor="sp_subnet_id" show-in-column="false"/>
+				<property display-name="ptable_id" name="ptable_id" property-accessor="ptable_id" show-in-column="false"/>
+				<property display-name="ptable_name" name="ptable_name" property-accessor="ptable_name" show-in-column="false"/>
+				<property display-name="medium_id" name="medium_id" property-accessor="medium_id" show-in-column="false"/>
+				<property display-name="medium_name" name="medium_name" property-accessor="medium_name" show-in-column="false"/>
+				<property display-name="build" name="build" property-accessor="build" show-in-column="false"/>
+				<property display-name="comment" name="comment" property-accessor="comment" show-in-column="false"/>
+				<property display-name="disk" name="disk" property-accessor="disk" show-in-column="false"/>
+				<property display-name="installed_at" name="installed_at" property-accessor="installed_at" show-in-column="false"/>
+				<property display-name="model_id" name="model_id" property-accessor="model_id" show-in-column="false"/>
+				<property display-name="hostgroup_id" name="hostgroup_id" property-accessor="hostgroup_id" show-in-column="false"/>
+				<property display-name="hostgroup_name" name="hostgroup_name" property-accessor="hostgroup_name" show-in-column="false"/>
+				<property display-name="owner_id" name="owner_id" property-accessor="owner_id" show-in-column="false"/>
+				<property display-name="owner_type" name="owner_type" property-accessor="owner_type" show-in-column="false"/>
+				<property display-name="enabled" name="enabled" property-accessor="enabled" show-in-column="false"/>
+				<property display-name="puppet_ca_proxy_id" name="puppet_ca_proxy_id" property-accessor="puppet_ca_proxy_id" show-in-column="false"/>
+				<property display-name="managed" name="managed" property-accessor="managed" show-in-column="false"/>
+				<property display-name="use_image" name="use_image" property-accessor="use_image" show-in-column="false"/>
+				<property display-name="image_file" name="image_file" property-accessor="image_file" show-in-column="false"/>
+				<property display-name="uuid" name="uuid" property-accessor="uuid" show-in-column="false"/>
+				<property display-name="compute_resource_id" name="compute_resource_id" property-accessor="compute_resource_id" show-in-column="false"/>
+				<property display-name="compute_resource_name" name="compute_resource_name" property-accessor="compute_resource_name" show-in-column="false"/>
+				<property display-name="compute_profile_id" name="compute_profile_id" property-accessor="compute_profile_id" show-in-column="false"/>
+				<property display-name="compute_profile_name" name="compute_profile_name" property-accessor="compute_profile_name" show-in-column="false"/>
+				<property display-name="capabilities" name="capabilitiesAsString" property-accessor="capabilitiesAsString" show-in-column="false"/>
+				<property display-name="provision_method" name="provision_method" property-accessor="provision_method" show-in-column="false"/>
+				<property display-name="puppet_proxy_id" name="puppet_proxy_id" property-accessor="puppet_proxy_id" show-in-column="false"/>
+				<property display-name="certname" name="certname" property-accessor="certname" show-in-column="false"/>
+				<property display-name="image_id" name="image_id" property-accessor="image_id" show-in-column="false"/>
+				<property display-name="image_name" name="image_name" property-accessor="image_name" show-in-column="false"/>
+				<property display-name="created_at" name="created_at" property-accessor="created_at" show-in-column="false"/>
+				<property display-name="updated_at" name="updated_at" property-accessor="updated_at" show-in-column="false"/>
+				<property display-name="last_compile" name="last_compile" property-accessor="last_compile" show-in-column="false"/>
+				<property display-name="global_status" name="global_status" property-accessor="global_status" show-in-column="false"/>
+				<property display-name="global_status_label" name="global_status_label" property-accessor="global_status_label" show-in-column="false"/>
+				<property display-name="puppet_status" name="puppet_status" property-accessor="puppet_status" show-in-column="false"/>
+				<property display-name="model_name" name="model_name" property-accessor="model_name" show-in-column="false"/>
+				<property display-name="build_status" name="build_status" property-accessor="build_status" show-in-column="false"/>
+				<property display-name="build_status_label" name="build_status_label" property-accessor="build_status_label" show-in-column="false"/>
+				<property display-name="progress_report_id" name="progress_report_id" property-accessor="progress_report_id" show-in-column="false"/>
+				<property display-name="root_pass" name="root_pass" property-accessor="root_pass" show-in-column="false"/>
+				<property display-name="location_id" name="location_id" property-accessor="location_id" show-in-column="false"/>
+				<property display-name="location_name" name="location_name" property-accessor="location_name" show-in-column="false"/>
+				<property display-name="organization_id" name="organization_id" property-accessor="organization_id" show-in-column="false"/>
+				<property display-name="organization_name" name="organization_name" property-accessor="organization_name" show-in-column="false"/>
+			</properties>
+		</finder>
+		
+		<finder type="Iterator_ForemanHost" datasource="foreman-datasource" hidden="false" 
+			script-object="Foreman_HostIterator" java-class="o11n.foreman.model.object.iterator.HostIterator"
+			image="images/folder-16x16.png">
+			<description>Foreman Iterator</description>
+			<id accessor="getId()" />
+			<properties>
+				<property display-name="id" name="id" property-accessor="id" show-in-column="false"/>
+				<property display-name="search" name="search" bean-property="search" show-in-column="false"/>
+				<property display-name="sortBy" name="sortBy" bean-property="sortBy" show-in-column="false"/>
+				<property display-name="sortOrder" name="sortOrder" bean-property="sortOrder" show-in-column="false"/>
+				<property display-name="objectCount" name="objectCount" bean-property="objectCount" show-in-column="false"/>
+			</properties>
+		</finder>	
+	</finders>
+<!-- ###### SCRIPTING OBJECTS ###### -->
+	<scripting-objects>
+<!-- SERVERS -->
+		<object script-name="_Foreman_ServerManager" java-class="o11n.foreman.model.ServerManager" create="false"
+			strict="true">
+			<singleton script-name="Foreman_ServerManager" datasource="foreman-datasource" />
+			<description>Utility class used to modify Foreman server objects</description>
+			<methods>
+				<method script-name="getConfiguration" java-name="getConfiguration" return-type="Foreman_ServerConfiguration" static="false">
+					<description>Gets a Foreman server configuration, based on an ID</description>
+					<parameters>
+						<parameter type="string" name="configurationId">
+							The Foreman server configuration ID.
+						</parameter>
+					</parameters>
+				</method>
+				<method script-name="deleteConfiguration" java-name="deleteConfiguration" return-type="void" static="false">
+					<description>Deletes a Foreman server configuration, based on an ID</description>
+					<parameters>
+						<parameter type="string" name="configurationId">
+							The Foreman server configuration ID.
+						</parameter>
+					</parameters>
+				</method>
+				<method script-name="persistConfiguration" java-name="persistConfiguration" return-type="string" static="false">
+					<description>Adds or updates a Foreman server configuration</description>
+					<parameters>
+						<parameter type="Foreman_ServerConfiguration" name="paramServerConfiguration">
+							The Foreman server configuration object.
+						</parameter>
+					</parameters>
+				</method>
+			</methods>
+		</object>
+		<object script-name="Foreman_Server" java-class="o11n.foreman.model.object.ForemanServer" create="false">
+			<description><![CDATA[Foreman server connection]]></description>
+			<attributes>
+				<attribute script-name="config" java-name="config" return-type="Foreman_ServerConfiguration" read-only="true">Foreman server configuration holder
+				</attribute>
+			</attributes>
+			<methods>
+				<method script-name="getHostManager" java-name="getFolder_ForemanServer_Host" return-type="Foreman_HostManager" static="false">
+					<description>Returns a Host manager object</description>
+				</method>
+			</methods>
+	    </object>
+	    <object script-name="Foreman_ServerConfiguration" java-class="o11n.foreman.configuration.ForemanServerConfiguration" create="true">
+			<description><![CDATA[Foreman server configuration holder]]></description>
+			<attributes>
+				<attribute script-name="name" java-name="name" return-type="string" read-only="false">Foreman server human readable name
+				</attribute>
+				<attribute script-name="id" java-name="id" return-type="string" read-only="false">Foreman server ID
+				</attribute>
+				<attribute script-name="host" java-name="host" return-type="string" read-only="false">Foreman server address
+				</attribute>
+				<attribute script-name="port" java-name="port" return-type="number" read-only="false">Foreman server port
+				</attribute>
+				<attribute script-name="ssl" java-name="ssl" return-type="boolean" read-only="false">True if SSL is enabled, false otherwise
+				</attribute>
+				<attribute script-name="username" java-name="username" return-type="string" read-only="false">Username used for authentication
+				</attribute>
+				<attribute script-name="password" java-name="password" return-type="string" read-only="false">Password used for authentication
+				</attribute>
+				<attribute script-name="sharedSession" java-name="sharedSession" return-type="boolean" read-only="false">True if shared session is used for authentication, false otherwise
+				</attribute>
+			</attributes>
+	    </object>
+<!-- HOSTS -->
+		<object script-name="Foreman_Host" java-class="o11n.foreman.model.object.Host" create="true">
+			<description><![CDATA[Foreman host object]]></description>
+			<attributes>
+				<attribute script-name="name" java-name="name" return-type="string" read-only="false">Foreman Host human readable name</attribute>
+				<attribute script-name="id" java-name="id" return-type="string" read-only="false">vRO object unique ID</attribute>
+				<attribute script-name="foremanId" java-name="foremanId" return-type="string" read-only="false">Foreman object unique ID</attribute>
+				<attribute script-name="ip" java-name="ip" return-type="string" read-only="false"/>
+				<attribute script-name="environment_id" java-name="environment_id" return-type="string" read-only="false"/>
+				<attribute script-name="environment_name" java-name="environment_name" return-type="string" read-only="false"/>
+				<attribute script-name="last_report" java-name="last_report" return-type="string" read-only="false"/>
+				<attribute script-name="mac" java-name="mac" return-type="string" read-only="false"/>
+				<attribute script-name="realm_id" java-name="realm_id" return-type="string" read-only="false"/>
+				<attribute script-name="realm_name" java-name="realm_name" return-type="string" read-only="false"/>
+				<attribute script-name="sp_mac" java-name="sp_mac" return-type="string" read-only="false"/>
+				<attribute script-name="sp_ip" java-name="sp_ip" return-type="string" read-only="false"/>
+				<attribute script-name="sp_name" java-name="sp_name" return-type="string" read-only="false"/>
+				<attribute script-name="domain_id" java-name="domain_id" return-type="string" read-only="false"/>
+				<attribute script-name="domain_name" java-name="domain_name" return-type="string" read-only="false"/>
+				<attribute script-name="architecture_id" java-name="architecture_id" return-type="string" read-only="false"/>
+				<attribute script-name="architecture_name" java-name="architecture_name" return-type="string" read-only="false"/>
+				<attribute script-name="operatingsystem_id" java-name="operatingsystem_id" return-type="string" read-only="false"/>
+				<attribute script-name="operatingsystem_name" java-name="operatingsystem_name" return-type="string" read-only="false"/>
+				<attribute script-name="subnet_id" java-name="subnet_id" return-type="string" read-only="false"/>
+				<attribute script-name="subnet_name" java-name="subnet_name" return-type="string" read-only="false"/>
+				<attribute script-name="sp_subnet_id" java-name="sp_subnet_id" return-type="string" read-only="false"/>
+				<attribute script-name="ptable_id" java-name="ptable_id" return-type="string" read-only="false"/>
+				<attribute script-name="ptable_name" java-name="ptable_name" return-type="string" read-only="false"/>
+				<attribute script-name="medium_id" java-name="medium_id" return-type="string" read-only="false"/>
+				<attribute script-name="medium_name" java-name="medium_name" return-type="string" read-only="false"/>
+				<attribute script-name="build" java-name="build" return-type="string" read-only="false"/>
+				<attribute script-name="comment" java-name="comment" return-type="string" read-only="false"/>
+				<attribute script-name="disk" java-name="disk" return-type="string" read-only="false"/>
+				<attribute script-name="installed_at" java-name="installed_at" return-type="string" read-only="false"/>
+				<attribute script-name="model_id" java-name="model_id" return-type="string" read-only="false"/>
+				<attribute script-name="hostgroup_id" java-name="hostgroup_id" return-type="string" read-only="false"/>
+				<attribute script-name="hostgroup_name" java-name="hostgroup_name" return-type="string" read-only="false"/>
+				<attribute script-name="owner_id" java-name="owner_id" return-type="string" read-only="false"/>
+				<attribute script-name="owner_type" java-name="owner_type" return-type="string" read-only="false"/>
+				<attribute script-name="enabled" java-name="enabled" return-type="string" read-only="false"/>
+				<attribute script-name="puppet_ca_proxy_id" java-name="puppet_ca_proxy_id" return-type="string" read-only="false"/>
+				<attribute script-name="managed" java-name="managed" return-type="string" read-only="false"/>
+				<attribute script-name="use_image" java-name="use_image" return-type="string" read-only="false"/>
+				<attribute script-name="image_file" java-name="image_file" return-type="string" read-only="false"/>
+				<attribute script-name="uuid" java-name="uuid" return-type="string" read-only="false"/>
+				<attribute script-name="compute_resource_id" java-name="compute_resource_id" return-type="string" read-only="false"/>
+				<attribute script-name="compute_resource_name" java-name="compute_resource_name" return-type="string" read-only="false"/>
+				<attribute script-name="compute_profile_id" java-name="compute_profile_id" return-type="string" read-only="false"/>
+				<attribute script-name="compute_profile_name" java-name="compute_profile_name" return-type="string" read-only="false"/>
+				<attribute script-name="capabilities" java-name="capabilities" return-type="Array/string" read-only="false"/>
+				<attribute script-name="provision_method" java-name="provision_method" return-type="string" read-only="false"/>
+				<attribute script-name="puppet_proxy_id" java-name="puppet_proxy_id" return-type="string" read-only="false"/>
+				<attribute script-name="certname" java-name="certname" return-type="string" read-only="false"/>
+				<attribute script-name="image_id" java-name="image_id" return-type="string" read-only="false"/>
+				<attribute script-name="image_name" java-name="image_name" return-type="string" read-only="false"/>
+				<attribute script-name="created_at" java-name="created_at" return-type="string" read-only="false"/>
+				<attribute script-name="updated_at" java-name="updated_at" return-type="string" read-only="false"/>
+				<attribute script-name="last_compile" java-name="last_compile" return-type="string" read-only="false"/>
+				<attribute script-name="global_status" java-name="global_status" return-type="string" read-only="false"/>
+				<attribute script-name="global_status_label" java-name="global_status_label" return-type="string" read-only="false"/>
+				<attribute script-name="puppet_status" java-name="puppet_status" return-type="string" read-only="false"/>
+				<attribute script-name="model_name" java-name="model_name" return-type="string" read-only="false"/>
+				<attribute script-name="build_status" java-name="build_status" return-type="string" read-only="false"/>
+				<attribute script-name="build_status_label" java-name="build_status_label" return-type="string" read-only="false"/>
+				<attribute script-name="progress_report_id" java-name="progress_report_id" return-type="string" read-only="false"/>
+				<attribute script-name="root_pass" java-name="root_pass" return-type="string" read-only="false"/>
+				<attribute script-name="location_id" java-name="location_id" return-type="string" read-only="false"/>
+				<attribute script-name="organization_id" java-name="organization_id" return-type="string" read-only="false"/>
+				<attribute script-name="location_name" java-name="location_name" return-type="string" read-only="false"/>
+				<attribute script-name="organization_name" java-name="organization_name" return-type="string" read-only="false"/>
+				<attribute script-name="parameters" java-name="parameters" return-type="Array/Properties" read-only="false"/>
+				<attribute script-name="interfaces" java-name="interfaces" return-type="Array/Properties" read-only="false"/>
+				<attribute script-name="puppetclasses" java-name="puppetclasses" return-type="Array/Properties" read-only="false"/>
+				<attribute script-name="config_groups" java-name="config_groups" return-type="Array/Properties" read-only="false"/>
+				<attribute script-name="all_parameters" java-name="all_parameters" return-type="Array/Properties" read-only="false"/>
+				<attribute script-name="all_puppetclasses" java-name="all_puppetclasses" return-type="Array/Properties" read-only="false"/>
+				<attribute script-name="permissions" java-name="permissions" return-type="Properties" read-only="false"/>
+			</attributes>
+			<methods>
+				<method script-name="getForemanServer" java-name="getForemanServer" return-type="Foreman_Server" static="false">
+					<description>Gets the Foreman_Server for this object, or null if no servers are associated with it.</description>
+				</method>
+			</methods>
+	    </object>
+	    <object script-name="Foreman_HostIterator" java-class="o11n.foreman.model.object.iterator.HostIterator" create="false">
+			<description><![CDATA[Iterator for Foreman_Host objects]]></description>
+			<methods>
+				<method script-name="hasNext" java-name="hasNext" return-type="boolean" static="false">
+					<description>Returns true if there's any more objects</description>
+				</method>
+				<method script-name="next" java-name="next" return-type="Foreman_Host" static="false">
+					<description>Returns the next available Foreman_Host object</description>
+				</method>
+				<method script-name="getObjectCount" java-name="getObjectCount" return-type="number" static="false">
+					<description>Returns the number of objects that this iterator can return</description>
+				</method>
+			</methods>
+	    </object>
+	    <object script-name="Foreman_HostManager" java-class="o11n.foreman.model.object.folder.Folder_ForemanServer_Host" create="false">
+			<description><![CDATA[Exposes operations for Host objects]]></description>
+			<methods>
+				<method script-name="getAllHosts" java-name="getAllHosts" return-type="Foreman_HostIterator" static="false">
+					<description>Returns an iterator for all Foreman_Host objects</description>
+				</method>
+				<method script-name="getHosts" java-name="getHosts" return-type="Foreman_HostIterator" static="false">
+					<description>Returns an iterator for Foreman_Host objects, based on a filter</description>
+					<parameters>
+						<parameter type="string" name="search">
+							Filter.
+							Can be null.
+						</parameter>
+						<parameter type="string" name="sortBy">
+							Sort by.
+							Can be null.
+						</parameter>
+						<parameter type="string" name="sortOrder">
+							Sort order. The only accepted values for this field are ASC or DESC.
+							Can be null.
+						</parameter>
+					</parameters>
+				</method>
+				<method script-name="getHostById" java-name="getHostById" return-type="Foreman_Host" static="false">
+					<description>Returns a Foreman_Host object, based on its id.</description>
+					<parameters>
+						<parameter type="string" name="id">
+							Foreman_Host object id
+						</parameter>
+					</parameters>
+				</method>
+				<method script-name="deleteHostById" java-name="deleteHostById" return-type="void" static="false">
+					<description>Deletes a Foreman_Host object, based on its id.</description>
+					<parameters>
+						<parameter type="string" name="id">
+							Foreman_Host object id
+						</parameter>
+					</parameters>
+				</method>
+				<method script-name="updateHost" java-name="updateHost" return-type="Foreman_Host" static="false">
+					<description>Updates a Foreman_Host object</description>
+					<parameters>
+						<parameter type="Foreman_Host" name="host">
+							Foreman_Host object with properties to be updated
+						</parameter>
+					</parameters>
+				</method>
+				<method script-name="createHost" java-name="createHost" return-type="Foreman_Host" static="false">
+					<description>Updates a Foreman_Host object</description>
+					<parameters>
+						<parameter type="Foreman_Host" name="host">
+							Foreman_Host object with properties to be updated
+						</parameter>
+					</parameters>
+				</method>
+				<method script-name="getHostConfigurationStatus" java-name="getHostConfigurationStatus" return-type="Properties" static="false">
+					<description>Get configuration status of host.</description>
+					<parameters>
+						<parameter type="string" name="id">
+							Foreman_Host object id
+						</parameter>
+					</parameters>
+				</method>
+				<method script-name="getHostStatus" java-name="getHostStatus" return-type="Properties" static="false">
+					<description>Get status of host.</description>
+					<parameters>
+						<parameter type="string" name="id">
+							Foreman_Host object id
+						</parameter>
+						<parameter type="string" name="type">
+							Status type, can be one of: global, configuration, build
+						</parameter>
+					</parameters>
+				</method>
+				<method script-name="getHostVmComputeAttributes" java-name="getHostVmComputeAttributes" return-type="Properties" static="false">
+					<description>Return the host’s compute attributes that can be used to create a clone of this VM.</description>
+					<parameters>
+						<parameter type="string" name="id">
+							Foreman_Host object id
+						</parameter>
+					</parameters>
+				</method>
+				<method script-name="disassociateHost" java-name="disassociateHost" return-type="void" static="false">
+					<description>Disassociate a host from a VM.</description>
+					<parameters>
+						<parameter type="string" name="id">
+							Foreman_Host object id
+						</parameter>
+					</parameters>
+				</method>
+				<method script-name="runHostPowerOperation" java-name="runHostPowerOperation" return-type="Properties" static="false">
+					<description>Get status of host.</description>
+					<parameters>
+						<parameter type="string" name="id">
+							Foreman_Host object id
+						</parameter>
+						<parameter type="string" name="powerAction">
+							Power action, valid actions are (on/start), (off/stop), (soft/reboot), (cycle/reset), (state/status)
+						</parameter>
+					</parameters>
+				</method>
+				<method script-name="bootHostFromDevice" java-name="bootHostFromDevice" return-type="void" static="false">
+					<description>Boot host from specified device.</description>
+					<parameters>
+						<parameter type="string" name="id">
+							Foreman_Host object id
+						</parameter>
+						<parameter type="string" name="device">
+							Boot device, valid devices are: disk, cdrom, pxe, bios
+						</parameter>
+					</parameters>
+				</method>
+				<method script-name="getForemanServer" java-name="getForemanServer" return-type="Foreman_Server" static="false">
+					<description>Gets the Foreman_Server for this object, or null if no servers are associated with it.</description>
+				</method>
+			</methods>
+	    </object>
+	</scripting-objects>
+</module>
